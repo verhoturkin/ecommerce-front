@@ -1,0 +1,20 @@
+<div class="main-content">
+  <div class="section-content section-content-p30">
+    <div class="container-fluid">
+      <div class="row">
+        <div *ngFor="let product of products" class="col-md-3">
+          <div class="product-box">
+            <!--            <a href="product-detail.html">-->
+            <img class="img-responsive" src="{{product.imageUrl}}">
+            <!--            </a>-->
+            <!--            <a href="product-detail.html">-->
+            <h1>{{product.name}}</h1>
+            <!--            </a>-->
+            <div class="price">{{ product.unitPrice | currency:'USD'}}</div>
+            <a class="primary-btn" href="#">Add to cart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
