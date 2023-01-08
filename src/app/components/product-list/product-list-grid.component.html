@@ -1,10 +1,14 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
+
     <h4 *ngIf="!searchMode">Category: {{ currentCategoryName }}</h4>
     <hr *ngIf="!searchMode">
+
     <div class="container-fluid">
       <div class="row">
+
         <div *ngFor="let product of products" class="col-md-3">
+
           <div class="product-box">
             <a routerLink="/products/{{ product.id }}">
               <img class="img-responsive" src="{{product.imageUrl}}" alt="{{product.name}}">
@@ -16,10 +20,36 @@
             <a class="primary-btn" href="#">Add to cart</a>
           </div>
         </div>
+
+        <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+          No products found.
+        </div>
       </div>
 
-      <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
-        No products found.
+      <div class="footer-pagination">
+        <div class="row">
+          <div class="col-md-6"></div>
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-md-9" style="padding-left: 30%">
+                <ngb-pagination [(page)]="pageNumber" [pageSize]="pageSize"
+                                [collectionSize]="totalElements" (pageChange)="listProduct()"
+                                [maxSize]="5" [boundaryLinks]="true">
+                </ngb-pagination>
+              </div>
+              <div class="col-md-3 mt-2" style="text-align: right;">
+                <span class="mr-2">Page Size</span>
+                <select #pageSelect (change)="updatePageSize(pageSelect.value)">
+                  <option>2</option>
+                  <option selected="true">5</option>
+                  <option>10</option>
+                  <option>20</option>
+                  <option>50</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
