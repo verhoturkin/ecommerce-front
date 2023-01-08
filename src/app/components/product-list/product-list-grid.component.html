@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="section-content section-content-p30">
-    <h4>Category: {{ currentCategoryName }}</h4>
-    <hr>
+    <h4 *ngIf="!searchMode">Category: {{ currentCategoryName }}</h4>
+    <hr *ngIf="!searchMode">
     <div class="container-fluid">
       <div class="row">
         <div *ngFor="let product of products" class="col-md-3">
@@ -16,6 +16,10 @@
             <a class="primary-btn" href="#">Add to cart</a>
           </div>
         </div>
+      </div>
+
+      <div *ngIf="products?.length == 0" class="alert alert-warning col-md-12" role="alert">
+        No products found.
       </div>
     </div>
   </div>
