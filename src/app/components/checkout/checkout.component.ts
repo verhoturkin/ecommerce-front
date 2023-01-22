@@ -4,6 +4,7 @@ import { ShopFormService } from "../../services/shop-form.service";
 import { Country } from "../../common/country";
 import { State } from "../../common/state";
 import { ShopValidators } from "../../validators/shop-validators";
+import { CartService } from "../../services/cart.service";
 
 @Component({
   selector: 'app-checkout',
@@ -24,6 +25,7 @@ export class CheckoutComponent implements OnInit {
   billingStates: State[] = [];
 
   constructor(private formBuilder: FormBuilder,
+              private cartService: CartService,
               private formService: ShopFormService) {
   }
 
@@ -72,6 +74,8 @@ export class CheckoutComponent implements OnInit {
     this.formService.getMonths(startMonth).subscribe(data => this.creditCardMonths = data);
     this.formService.getYears().subscribe(data => this.creditCardYears = data);
     this.formService.getCountries().subscribe(data => this.countries = data);
+
+    this.reviewCartDetails();
   }
 
   onSubmit() {
@@ -143,5 +147,10 @@ export class CheckoutComponent implements OnInit {
         formGroup?.get('state')?.setValue(data[0]);
       }
     )
+  }
+
+  reviewCartDetails() {
+    this.cartService.totalPrice.subscribe(totalPrice => this.totalPrice = totalPrice);
+    this.cartService.totalQuantity.subscribe(totalQuantity => this.totalQuantity = totalQuantity);
   }
 }
