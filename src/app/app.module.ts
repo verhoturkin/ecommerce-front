@@ -14,8 +14,20 @@ import { CartStatusComponent } from './components/cart-status/cart-status.compon
 import { CartDetailComponent } from './components/cart-detail/cart-detail.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { LoginComponent } from './components/login/login.component';
+import { LoginStatusComponent } from './components/login-status/login-status.component';
+import { OktaAuth } from "@okta/okta-auth-js";
+import { OKTA_CONFIG, OktaAuthModule, OktaCallbackComponent } from "@okta/okta-angular";
+
+import myAppConfig from "./config/my-app-config";
+
+
+const oktaConfig = myAppConfig.oidc;
+const oktaAuth = new OktaAuth(oktaConfig);
 
 const routes: Routes = [
+  {path: 'login', component: LoginComponent},
+  {path: 'login/callback', component: OktaCallbackComponent},
   {path: 'checkout', component: CheckoutComponent},
   {path: 'cart-details', component: CartDetailComponent},
   {path: 'products/:id', component: ProductDetailsComponent},
@@ -36,7 +48,9 @@ const routes: Routes = [
     ProductDetailsComponent,
     CartStatusComponent,
     CartDetailComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    LoginComponent,
+    LoginStatusComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
@@ -44,9 +58,10 @@ const routes: Routes = [
     HttpClientModule,
     RouterOutlet,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    OktaAuthModule
   ],
-  providers: [ProductService],
+  providers: [ProductService, { provide: OKTA_CONFIG, useValue: { oktaAuth }}],
   bootstrap: [AppComponent]
 })
 export class AppModule {
